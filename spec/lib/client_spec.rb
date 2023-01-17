@@ -79,7 +79,7 @@ RSpec.describe OJRA::Client do
 
         @client.assign_reviewer("reviewer21", 1234)
 
-        expect(@client.error_msg).to eq("Error response code: 403")
+        expect(@client.error_msg).to eq("Error response code from https://reviewers-api.test/api/stats/update/reviewer21/review_assigned: 403")
       end
     end
 
@@ -108,7 +108,7 @@ RSpec.describe OJRA::Client do
 
         @client.unassign_reviewer("reviewer21", 1234)
 
-        expect(@client.error_msg).to eq("Error response code: 500")
+        expect(@client.error_msg).to eq("Error response code from https://reviewers-api.test/api/stats/update/reviewer21/review_unassigned: 500")
       end
     end
 

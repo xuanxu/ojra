@@ -68,7 +68,7 @@ module OJRA
       response = Faraday.post(url, params, { "TOKEN" => token })
 
       if response.status.between?(400, 599)
-        set_error_msg("Error response code: #{response.status}")
+        set_error_msg("Error response code from #{url}: #{response.status}")
       end
 
       response.status.between?(200, 299)
