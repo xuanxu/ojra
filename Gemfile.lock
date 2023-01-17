@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    OJRA (1.0.0)
-      faraday
+    ojra (1.0.1)
+      faraday (~> 2.7)
 
 GEM
   remote: https://rubygems.org/
@@ -32,7 +32,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  OJRA!
+  ojra!
   rake (~> 13.0.6)
   rspec (~> 3.12)
 

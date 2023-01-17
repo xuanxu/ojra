@@ -3,7 +3,7 @@
 require_relative "lib/ojra/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "OJRA"
+  spec.name = "ojra"
   spec.version = OJRA::VERSION
   spec.authors = ["Juanjo Bazán"]
   spec.email = ["jjbazan@gmail.com"]
@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
 
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "faraday"
+  spec.add_dependency "faraday", "~> 2.7"
 
   spec.add_development_dependency "rake", "~> 13.0.6"
   spec.add_development_dependency "rspec", "~> 3.12"
