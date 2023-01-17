@@ -6,7 +6,7 @@ A Ruby wrapper for the Open Journal's Reviewers application's API
 
 ### Installation
 
-Install OJRA running
+Install OJRA running:
 
 ```
 gem install ojra
