@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.summary = "Wrapper for the Open Journal's Reviewers API "
   spec.description = "Ruby wrapper for the Open Journal's Reviewers application's API"
   spec.homepage = "http://github.com/xuanxu/ojra"
-  spec.required_ruby_version = ">= 3.0"
+  spec.required_ruby_version = ">= 2.7.7"
   spec.license = "MIT"
 
   spec.metadata["homepage_uri"] = spec.homepage
