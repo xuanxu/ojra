@@ -2,6 +2,9 @@
 
 A Ruby wrapper for the Open Journal's Reviewers application's API
 
+[![Tests](https://github.com/xuanxu/ojra/actions/workflows/tests.yml/badge.svg)](https://github.com/xuanxu/ojra/actions/workflows/tests.yml)
+
+
 ## Use
 
 ### Installation
