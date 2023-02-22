@@ -55,7 +55,7 @@ RSpec.describe OJRA::Client do
     end
 
     describe ".assign_reviewer" do
-      it "calls the Reviewers API assigning reviewer to issue" do
+      it "calls the Reviewers API assigning reviewer to issue with default action" do
         expected_url = "https://reviewers-api.test/api/stats/update/reviewer21/review_assigned"
         expected_params = { idempotency_key: "assign-reviewer21-1234" }
         expected_headers = { "TOKEN" => "testTOKEN" }
@@ -63,6 +63,16 @@ RSpec.describe OJRA::Client do
         expect(Faraday).to receive(:post).with(expected_url, expected_params, expected_headers)
 
         @client.assign_reviewer("reviewer21", 1234)
+      end
+
+      it "calls the Reviewers API assigning reviewer to issue with received action" do
+        expected_url = "https://reviewers-api.test/api/stats/update/reviewer21/review_started"
+        expected_params = { idempotency_key: "assign-reviewer21-1234" }
+        expected_headers = { "TOKEN" => "testTOKEN" }
+
+        expect(Faraday).to receive(:post).with(expected_url, expected_params, expected_headers)
+
+        @client.assign_reviewer("reviewer21", 1234, "review_started")
       end
 
       it "returns whether or not response is 2XX" do
@@ -84,7 +94,7 @@ RSpec.describe OJRA::Client do
     end
 
     describe ".unassign_reviewer" do
-      it "calls the Reviewers API unassigning reviewer from issue" do
+      it "calls the Reviewers API unassigning reviewer from issue with default action" do
         expected_url = "https://reviewers-api.test/api/stats/update/reviewer21/review_unassigned"
         expected_params = { idempotency_key: "unassign-reviewer21-1234" }
         expected_headers = { "TOKEN" => "testTOKEN" }
@@ -92,6 +102,16 @@ RSpec.describe OJRA::Client do
         expect(Faraday).to receive(:post).with(expected_url, expected_params, expected_headers)
 
         @client.unassign_reviewer("reviewer21", 1234)
+      end
+
+      it "calls the Reviewers API unassigning reviewer from issue with received action" do
+        expected_url = "https://reviewers-api.test/api/stats/update/reviewer21/review_finished"
+        expected_params = { idempotency_key: "unassign-reviewer21-1234" }
+        expected_headers = { "TOKEN" => "testTOKEN" }
+
+        expect(Faraday).to receive(:post).with(expected_url, expected_params, expected_headers)
+
+        @client.unassign_reviewer("reviewer21", 1234, "review_finished")
       end
 
       it "returns whether or not response is 2XX" do
@@ -148,6 +168,41 @@ RSpec.describe OJRA::Client do
       end
     end
 
+    describe ".start_review" do
+      it "calls .assign_reviewer for each reviewer with action=review_started" do
+        expect(@client).to receive(:assign_reviewer).once.with("reviewer21", 1234, "review_started")
+        expect(@client).to receive(:assign_reviewer).once.with("reviewer33", 1234, "review_started")
+        expect(@client).to receive(:assign_reviewer).once.with("reviewer42", 1234, "review_started")
+
+        @client.start_review(["reviewer21", "reviewer33", "reviewer42"], 1234)
+      end
+
+      it "can parse string of reviewers into an array" do
+        expect(@client).to receive(:assign_reviewer).once.with("reviewer21", 1234, "review_started")
+        expect(@client).to receive(:assign_reviewer).once.with("reviewer33", 1234, "review_started")
+        expect(@client).to receive(:assign_reviewer).once.with("reviewer42", 1234, "review_started")
+
+        @client.start_review("reviewer21, reviewer33, reviewer42", 1234)
+      end
+    end
+
+    describe ".finish_review" do
+      it "calls .unassign_reviewer for each reviewer with action=review_finished" do
+        expect(@client).to receive(:unassign_reviewer).once.with("reviewer21", 1234, "review_finished")
+        expect(@client).to receive(:unassign_reviewer).once.with("reviewer33", 1234, "review_finished")
+        expect(@client).to receive(:unassign_reviewer).once.with("reviewer42", 1234, "review_finished")
+
+        @client.finish_review(["reviewer21", "reviewer33", "reviewer42"], 1234)
+      end
+
+      it "can parse string of reviewers into an array" do
+        expect(@client).to receive(:unassign_reviewer).once.with("reviewer21", 1234, "review_finished")
+        expect(@client).to receive(:unassign_reviewer).once.with("reviewer33", 1234, "review_finished")
+        expect(@client).to receive(:unassign_reviewer).once.with("reviewer42", 1234, "review_finished")
+
+        @client.finish_review("reviewer21, reviewer33, reviewer42", 1234)
+      end
+    end
 
   end
 

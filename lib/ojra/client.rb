@@ -14,19 +14,19 @@ module OJRA
       !(host_url.empty? || token.empty?)
     end
 
-    def assign_reviewer(reviewer, issue_id)
+    def assign_reviewer(reviewer, issue_id, api_action="review_assigned")
       set_error_msg("Missing value: reviewer") and return if reviewer.to_s.strip.empty?
 
-      url = "#{host_url}/api/stats/update/#{reviewer}/review_assigned"
+      url = "#{host_url}/api/stats/update/#{reviewer}/#{api_action}"
       idempotency_key = "assign-#{reviewer}-#{issue_id}"
 
       reviewers_api_post(url, { idempotency_key: idempotency_key })
     end
 
-    def unassign_reviewer(reviewer, issue_id)
+    def unassign_reviewer(reviewer, issue_id, api_action="review_unassigned")
       set_error_msg("Missing value: reviewer") and return if reviewer.to_s.strip.empty?
 
-      url = "#{host_url}/api/stats/update/#{reviewer}/review_unassigned"
+      url = "#{host_url}/api/stats/update/#{reviewer}/#{api_action}"
       idempotency_key = "unassign-#{reviewer}-#{issue_id}"
 
       reviewers_api_post(url, { idempotency_key: idempotency_key })
@@ -40,6 +40,16 @@ module OJRA
     def unassign_reviewers(reviewers, issue_id)
       reviewers_list = get_list(reviewers)
       reviewers_list.each { |reviewer| unassign_reviewer(reviewer, issue_id) }
+    end
+
+    def start_review(reviewers, issue_id)
+      reviewers_list = get_list(reviewers)
+      reviewers_list.each { |reviewer| assign_reviewer(reviewer, issue_id, "review_started") }
+    end
+
+    def finish_review(reviewers, issue_id)
+      reviewers_list = get_list(reviewers)
+      reviewers_list.each { |reviewer| unassign_reviewer(reviewer, issue_id, "review_finished") }
     end
 
     private
