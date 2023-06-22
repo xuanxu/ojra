@@ -1,6 +1,6 @@
 # OJRA: Open Journals Reviewers API
 
-A Ruby wrapper for the Open Journal's Reviewers application's API
+A Ruby wrapper for the Open Journal's [Reviewers application](https://github.com/openjournals/reviewers)'s API
 
 [![Tests](https://github.com/xuanxu/ojra/actions/workflows/tests.yml/badge.svg)](https://github.com/xuanxu/ojra/actions/workflows/tests.yml)
 [![Gem Version](https://badge.fury.io/rb/ojra.svg)](https://badge.fury.io/rb/ojra)
