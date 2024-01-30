@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ojra (1.1.0)
+    ojra (1.1.1)
       faraday (~> 2.9)
 
 GEM
